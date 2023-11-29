@@ -8,6 +8,9 @@ import * as Yup from "yup";
 const contactSchemaValidation = Yup.object().shape({
   name: Yup.string().required("Name is Required"),
   email: Yup.string().email("Invalid Email").required("Email is Required"),
+  mobNo: Yup.string()
+    .required("Mobile Number is Required")
+    .matches(/^[0-9]{10}$/, "Mobile Number must be a 10-digit number"),
 });
 
 const AddAndUpdateContact = ({ isOpen, onClose, isUpdate, contact }) => {
@@ -42,10 +45,12 @@ const AddAndUpdateContact = ({ isOpen, onClose, isUpdate, contact }) => {
               ? {
                   name: contact.name,
                   email: contact.email,
+                  mobNo: contact.mobNo,
                 }
               : {
                   name: "",
                   email: "",
+                  mobNo: "",
                 }
           }
           onSubmit={(values) => {
@@ -59,6 +64,13 @@ const AddAndUpdateContact = ({ isOpen, onClose, isUpdate, contact }) => {
               <Field name="name" className="h-10 border" />
               <div className=" text-xs text-red-500">
                 <ErrorMessage name="name" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="email">Mobile Number</label>
+              <Field name="mobNo" className="h-10 border" />
+              <div className=" text-xs text-red-500">
+                <ErrorMessage name="mobNo" />
               </div>
             </div>
             <div className="flex flex-col gap-1">
